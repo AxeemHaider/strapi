@@ -22,6 +22,7 @@ module.exports = {
       'email',
       'roles',
       'preferedLanguage',
+      'district',
     ]);
 
     if (ctx.state?.user) {

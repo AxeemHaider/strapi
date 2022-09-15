@@ -94,5 +94,12 @@ module.exports = {
       configurable: false,
       required: false,
     },
+    district: {
+      type: 'enumeration',
+      enum: [],
+      unique: false,
+      configurable: false,
+      required: false,
+    },
   },
 };

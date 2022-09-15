@@ -3,6 +3,7 @@ const formDataModel = {
   lastname: '',
   email: '',
   roles: [],
+  district: 1000,
 };
 
 export default formDataModel;

@@ -12,6 +12,7 @@ const userCreationSchema = yup
     lastname: validators.lastname,
     roles: validators.roles.min(1),
     preferedLanguage: yup.string().nullable(),
+    district: yup.number().nullable(),
   })
   .noUnknown();
 
