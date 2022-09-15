@@ -20,9 +20,9 @@ const postgres = {
 const mysql = {
   client: 'mysql',
   connection: {
-    database: 'strapi',
-    user: 'strapi',
-    password: 'strapi',
+    database: 'strapi-dev',
+    user: 'admin',
+    password: 'password',
     port: 3306,
     host: 'localhost',
   },
@@ -35,5 +35,5 @@ const db = {
 };
 
 module.exports = {
-  connection: process.env.DB ? db[process.env.DB] || db.sqlite : db.sqlite,
+  connection: db.mysql,
 };

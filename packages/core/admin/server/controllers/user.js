@@ -24,6 +24,10 @@ module.exports = {
       'preferedLanguage',
     ]);
 
+    if (ctx.state?.user) {
+      attributes.created_by_id = ctx.state.user.id;
+    }
+
     const userAlreadyExists = await getService('user').exists({
       email: attributes.email,
     });
@@ -46,6 +50,13 @@ module.exports = {
 
   async find(ctx) {
     const userService = getService('user');
+
+    const roles = ctx.state.user.roles;
+    const isProvincialAccount = roles.find((r) => r.code === 'strapi-super-admin');
+
+    if (isProvincialAccount) {
+      ctx.query.filters = { created_by_id: ctx.state.user.id };
+    }
 
     const { results, pagination } = await userService.findPage(ctx.query);
 
