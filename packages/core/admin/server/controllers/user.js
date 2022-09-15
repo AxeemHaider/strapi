@@ -52,7 +52,7 @@ module.exports = {
     const userService = getService('user');
 
     const roles = ctx.state.user.roles;
-    const isProvincialAccount = roles.find((r) => r.code === 'strapi-super-admin');
+    const isProvincialAccount = roles.find((r) => r.code === 'provincial');
 
     if (isProvincialAccount) {
       ctx.query.filters = { created_by_id: ctx.state.user.id };

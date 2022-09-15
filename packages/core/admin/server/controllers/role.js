@@ -31,6 +31,19 @@ module.exports = {
   async findAll(ctx) {
     const roles = await getService('role').findAllWithUsersCount();
 
+    const userRoles = ctx.state.user.roles;
+    const isProvincialAccount = userRoles.find((r) => r.code === 'provincial');
+
+    if (isProvincialAccount) {
+      const provincialRoles = roles.filter((r) => r.code.startsWith('provincial_'));
+
+      ctx.body = {
+        data: provincialRoles,
+      };
+
+      return;
+    }
+
     ctx.body = {
       data: roles,
     };
