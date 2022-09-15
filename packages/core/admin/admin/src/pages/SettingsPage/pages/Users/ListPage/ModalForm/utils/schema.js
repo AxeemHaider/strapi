@@ -8,4 +8,8 @@ const schema = yup.object().shape({
   roles: yup.array().min(1, translatedErrors.required).required(translatedErrors.required),
 });
 
+export const schemaForProvincial = schema.shape({
+  district: yup.string().required(translatedErrors.required),
+});
+
 export default schema;

@@ -56,6 +56,14 @@ const AuthenticatedApp = () => {
     },
   ]);
 
+  // useEffect(() => {
+  //   if (userInfo && userRoles) {
+  //     console.log('run');
+  //     const extendedInfo = { ...userInfo, roles: userRoles };
+  //     auth.setUserInfo(extendedInfo);
+  //   }
+  // }, []);
+
   const shouldUpdateStrapi = useMemo(
     () => checkLatestStrapiVersion(strapiVersion, tag_name),
     [tag_name]
