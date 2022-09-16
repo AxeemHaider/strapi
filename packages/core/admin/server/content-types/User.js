@@ -95,8 +95,13 @@ module.exports = {
       required: false,
     },
     district: {
-      type: 'enumeration',
-      enum: [],
+      type: 'integer',
+      unique: false,
+      configurable: false,
+      required: false,
+    },
+    province: {
+      type: 'integer',
       unique: false,
       configurable: false,
       required: false,

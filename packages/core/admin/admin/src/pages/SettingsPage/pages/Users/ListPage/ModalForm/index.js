@@ -30,6 +30,7 @@ import { axiosInstance } from '../../../../../../core/utils';
 import SelectRoles from '../../components/SelectRoles';
 import layout from './utils/layout';
 import schema, { schemaForProvincial } from './utils/schema';
+import provincialSchema from './utils/provincialSchema';
 import stepper from './utils/stepper';
 
 const ModalForm = ({ queryName, onToggle }) => {
@@ -152,6 +153,26 @@ const ModalForm = ({ queryName, onToggle }) => {
                     </Box>
                   </Box>
                   <Box>
+                    <Box paddingTop={4}>
+                      <Grid gap={5}>
+                        {provincialSchema.map((row) => {
+                          return row.map((input) => {
+                            return (
+                              <GridItem key={input.name} {...input.size}>
+                                <GenericInput
+                                  {...input}
+                                  disabled={isDisabled}
+                                  onChange={handleChange}
+                                  value={values[input.name]}
+                                />
+                              </GridItem>
+                            );
+                          });
+                        })}
+                      </Grid>
+                    </Box>
+                  </Box>
+                  <Box>
                     <Typography variant="beta" as="h2">
                       {formatMessage({
                         id: 'global.roles',
@@ -168,21 +189,20 @@ const ModalForm = ({ queryName, onToggle }) => {
                             value={values.roles}
                           />
                         </GridItem>
-                        {isProvincialAccount &&
-                          roleSettingsForm.map((row) => {
-                            return row.map((input) => {
-                              return (
-                                <GridItem key={input.name} {...input.size}>
-                                  <GenericInput
-                                    {...input}
-                                    disabled={isDisabled}
-                                    onChange={handleChange}
-                                    value={values[input.name]}
-                                  />
-                                </GridItem>
-                              );
-                            });
-                          })}
+                        {roleSettingsForm.map((row) => {
+                          return row.map((input) => {
+                            return (
+                              <GridItem key={input.name} {...input.size}>
+                                <GenericInput
+                                  {...input}
+                                  disabled={isDisabled}
+                                  onChange={handleChange}
+                                  value={values[input.name]}
+                                />
+                              </GridItem>
+                            );
+                          });
+                        })}
                       </Grid>
                     </Box>
                   </Box>

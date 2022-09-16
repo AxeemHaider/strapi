@@ -23,6 +23,7 @@ module.exports = {
       'roles',
       'preferedLanguage',
       'district',
+      'province',
     ]);
 
     if (ctx.state?.user) {

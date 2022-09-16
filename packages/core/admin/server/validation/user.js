@@ -13,6 +13,7 @@ const userCreationSchema = yup
     roles: validators.roles.min(1),
     preferedLanguage: yup.string().nullable(),
     district: yup.number().nullable(),
+    province: yup.number().nullable(),
   })
   .noUnknown();
 
