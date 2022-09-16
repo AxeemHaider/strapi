@@ -9,10 +9,13 @@ import {
   SubNavSections,
   SubNavLink,
 } from '@strapi/design-system/v2/SubNav';
+import { auth } from '@strapi/helper-plugin';
 import { getSectionsToDisplay } from '../../utils';
 
 const SettingsNav = ({ menu }) => {
   const { formatMessage } = useIntl();
+  const user = auth.getUserInfo();
+  const isProvincialAccount = user.roles ? user.roles.find((r) => r.code === 'provincial') : false;
 
   const filteredMenu = getSectionsToDisplay(menu);
 
@@ -41,11 +44,22 @@ const SettingsNav = ({ menu }) => {
       <SubNavSections>
         {sections.map((section) => (
           <SubNavSection key={section.id} label={formatMessage(section.intlLabel)}>
-            {section.links.map((link) => (
-              <SubNavLink as={NavLink} withBullet={link.hasNotification} to={link.to} key={link.id}>
-                {formatMessage(link.intlLabel)}
-              </SubNavLink>
-            ))}
+            {section.links.map((link) => {
+              if (isProvincialAccount && link.id === 'roles') {
+                return null;
+              }
+
+              return (
+                <SubNavLink
+                  as={NavLink}
+                  withBullet={link.hasNotification}
+                  to={link.to}
+                  key={link.id}
+                >
+                  {formatMessage(link.intlLabel)}
+                </SubNavLink>
+              );
+            })}
           </SubNavSection>
         ))}
       </SubNavSections>
