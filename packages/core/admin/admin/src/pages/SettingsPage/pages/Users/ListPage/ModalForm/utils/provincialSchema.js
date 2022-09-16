@@ -1,4 +1,4 @@
-import { generateDistrictOptions } from './districts';
+import { generateDistrictOptions, generateDistrictOptionsForProvince } from './districts';
 
 const provinceList = [
   {
@@ -48,7 +48,7 @@ const generateProvinceOptions = () => {
   }));
 };
 
-const provincialSchema = [
+const defaultProvincialSchema = [
   [
     {
       intlLabel: {
@@ -79,4 +79,26 @@ const provincialSchema = [
   ],
 ];
 
-export default provincialSchema;
+export const generateProvincialSchema = (user) => {
+  if (!user.province) {
+    return defaultProvincialSchema;
+  }
+
+  return [
+    [
+      {
+        intlLabel: {
+          id: 'Auth.form.district.label',
+          defaultMessage: 'District',
+        },
+        name: 'district',
+        type: 'select',
+        options: generateDistrictOptionsForProvince(user.province),
+        size: {
+          col: 6,
+          xs: 12,
+        },
+      },
+    ],
+  ];
+};

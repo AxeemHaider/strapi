@@ -724,3 +724,20 @@ export const generateDistrictOptions = () => {
     value: district.id,
   }));
 };
+
+export const generateDistrictOptionsForProvince = (province) => {
+  const provinceDistricts = districts.filter((d) => d.id < province && d.id > province - 10_000);
+
+  provinceDistricts.sort(compare);
+
+  return provinceDistricts.map((district) => ({
+    metadatas: {
+      intlLabel: {
+        id: 'Auth.form.district.label',
+        defaultMessage: district.name,
+      },
+    },
+    key: district.id,
+    value: district.id,
+  }));
+};

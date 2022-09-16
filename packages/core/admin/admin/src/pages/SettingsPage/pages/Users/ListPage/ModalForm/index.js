@@ -30,12 +30,13 @@ import { axiosInstance } from '../../../../../../core/utils';
 import SelectRoles from '../../components/SelectRoles';
 import layout from './utils/layout';
 import schema, { schemaForProvincial } from './utils/schema';
-import provincialSchema from './utils/provincialSchema';
+import { generateProvincialSchema } from './utils/provincialSchema';
 import stepper from './utils/stepper';
 
 const ModalForm = ({ queryName, onToggle }) => {
   const user = auth.getUserInfo();
   const isProvincialAccount = user.roles ? user.roles.find((r) => r.code === 'provincial') : false;
+  const provincialSchema = generateProvincialSchema(user);
   const [currentStep, setStep] = useState('create');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [registrationToken, setRegistrationToken] = useState(null);
