@@ -44,6 +44,11 @@ const ModalForm = ({ queryName, onToggle }) => {
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const { lockApp, unlockApp } = useOverlayBlocker();
+
+  if (isProvincialAccount) {
+    formDataModel.province = user.province;
+  }
+
   const postMutation = useMutation((body) => axiosInstance.post('/admin/users', body), {
     async onSuccess({ data }) {
       setRegistrationToken(data.data.registrationToken);
