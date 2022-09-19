@@ -16,7 +16,7 @@
     },
     "address": {
       "type": "string",
-      "writable": false
+      "setValue": "(user, values) => user.id"
     }
   }
 }

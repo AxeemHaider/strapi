@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import take from 'lodash/take';
 import isEqual from 'react-fast-compare';
-import { GenericInput, NotAllowedInput, useLibrary } from '@strapi/helper-plugin';
+import { GenericInput, NotAllowedInput, useLibrary, auth } from '@strapi/helper-plugin';
 import { useContentTypeLayout } from '../../hooks';
 import { getFieldName } from '../../utils';
 import Wysiwyg from '../Wysiwyg';
@@ -35,7 +35,9 @@ function Inputs({
   shouldNotRunValidations,
   queryInfos,
   value,
+  values,
 }) {
+  const user = auth.getUserInfo();
   const { fields } = useLibrary();
   const { formatMessage } = useIntl();
   const { contentType: currentContentTypeLayout } = useContentTypeLayout();
@@ -88,8 +90,15 @@ function Inputs({
       return [];
     }
 
+    if (fieldSchema.setValue) {
+      // eslint-disable-next-line no-eval
+      const setFn = eval(fieldSchema.setValue);
+
+      return setFn(user, values);
+    }
+
     return value;
-  }, [type, value]);
+  }, [type, value, fieldSchema, values, user]);
 
   const step = useMemo(() => {
     return getStep(type);
@@ -283,6 +292,7 @@ Inputs.defaultProps = {
   labelAction: undefined,
   queryInfos: {},
   value: null,
+  values: {},
 };
 
 Inputs.propTypes = {
@@ -302,6 +312,7 @@ Inputs.propTypes = {
     endPoint: PropTypes.string,
   }),
   value: PropTypes.any,
+  values: PropTypes.any,
 };
 
 const Memoized = memo(Inputs, isEqual);
