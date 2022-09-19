@@ -12,6 +12,7 @@ import Wysiwyg from '../Wysiwyg';
 import InputJSON from '../InputJSON';
 import InputUID from '../InputUID';
 import SelectWrapper from '../SelectWrapper';
+import * as methods from './utils/setValueMethods';
 
 import {
   connect,
@@ -94,7 +95,7 @@ function Inputs({
       // eslint-disable-next-line no-eval
       const setFn = eval(fieldSchema.setValue);
 
-      return setFn(user, values);
+      return setFn(user, values, methods);
     }
 
     return value;

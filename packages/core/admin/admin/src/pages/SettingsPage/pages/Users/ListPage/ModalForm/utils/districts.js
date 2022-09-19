@@ -1,4 +1,4 @@
-const districts = [
+export const districts = [
   {
     id: 100,
     name: 'Attock',

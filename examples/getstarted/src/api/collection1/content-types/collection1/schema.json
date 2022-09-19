@@ -16,7 +16,7 @@
     },
     "address": {
       "type": "string",
-      "setValue": "(user, values) => user.id"
+      "setValue": "(user, values, methods) => methods.districts[0].name"
     }
   }
 }

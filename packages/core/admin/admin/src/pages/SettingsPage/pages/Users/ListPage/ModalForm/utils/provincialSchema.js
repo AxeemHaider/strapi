@@ -1,6 +1,6 @@
 import { generateDistrictOptions, generateDistrictOptionsForProvince } from './districts';
 
-const provinceList = [
+export const provinceList = [
   {
     id: 10_000,
     name: 'PUNJAB',
