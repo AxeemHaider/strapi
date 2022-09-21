@@ -18,6 +18,7 @@ import {
   useRBACProvider,
   useTracking,
   Link,
+  auth,
 } from '@strapi/helper-plugin';
 import { IconButton } from '@strapi/design-system/IconButton';
 import { Main } from '@strapi/design-system/Main';
@@ -64,6 +65,9 @@ function ListView({
   pagination,
   slug,
 }) {
+  const user = auth.getUserInfo();
+  const isSuperAdmin = user.roles ? user.roles.find((r) => r.code === 'strapi-super-admin') : false;
+
   const { total } = pagination;
   const {
     contentType: {
@@ -280,7 +284,7 @@ function ListView({
         <ActionLayout
           endActions={
             <>
-              <InjectionZone area="contentManager.listView.actions" />
+              {isSuperAdmin && <InjectionZone area="contentManager.listView.actions" />}
               <FieldPicker layout={layout} />
               <CheckPermissions permissions={cmPermissions.collectionTypesConfigurations}>
                 <Box paddingTop={1} paddingBottom={1}>
