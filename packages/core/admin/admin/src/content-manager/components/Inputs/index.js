@@ -6,13 +6,13 @@ import omit from 'lodash/omit';
 import take from 'lodash/take';
 import isEqual from 'react-fast-compare';
 import { GenericInput, NotAllowedInput, useLibrary, auth } from '@strapi/helper-plugin';
+import contentTypesMethods from 'getstarted/src/admin/extensions/content-types';
 import { useContentTypeLayout } from '../../hooks';
 import { getFieldName } from '../../utils';
 import Wysiwyg from '../Wysiwyg';
 import InputJSON from '../InputJSON';
 import InputUID from '../InputUID';
 import SelectWrapper from '../SelectWrapper';
-import * as methods from './utils/setValueMethods';
 
 import {
   connect,
@@ -42,6 +42,15 @@ function Inputs({
   const { fields } = useLibrary();
   const { formatMessage } = useIntl();
   const { contentType: currentContentTypeLayout } = useContentTypeLayout();
+
+  // Extend fieldSchema
+  if (fieldSchema.extension) {
+    if (contentTypesMethods[fieldSchema.extension]) {
+      const schemaExtensionFn = contentTypesMethods[fieldSchema.extension];
+      const extendedSchema = schemaExtensionFn(user, values, fieldSchema);
+      fieldSchema = { ...fieldSchema, ...extendedSchema };
+    }
+  }
 
   const disabled = useMemo(() => !get(metadatas, 'editable', true), [metadatas]);
   const type = fieldSchema.type;
@@ -92,10 +101,11 @@ function Inputs({
     }
 
     if (fieldSchema.setValue) {
-      // eslint-disable-next-line no-eval
-      const setFn = eval(fieldSchema.setValue);
+      if (contentTypesMethods[fieldSchema.setValue]) {
+        const setFn = contentTypesMethods[fieldSchema.setValue];
 
-      return setFn(user, values, methods);
+        return setFn(user, values, fieldSchema);
+      }
     }
 
     return value;
