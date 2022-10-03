@@ -49,6 +49,10 @@ function Inputs({
       const schemaExtensionFn = contentTypesMethods[fieldSchema.extension];
       const extendedSchema = schemaExtensionFn(user, values, fieldSchema);
       fieldSchema = { ...fieldSchema, ...extendedSchema };
+
+      if (!value && fieldSchema.value) {
+        value = fieldSchema.value;
+      }
     }
   }
 
