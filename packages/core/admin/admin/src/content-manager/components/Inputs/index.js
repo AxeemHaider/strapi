@@ -43,15 +43,28 @@ function Inputs({
   const { formatMessage } = useIntl();
   const { contentType: currentContentTypeLayout } = useContentTypeLayout();
 
-  // Extend fieldSchema
+  // Field Extension
   if (fieldSchema.extension) {
     if (contentTypesMethods[fieldSchema.extension]) {
       const schemaExtensionFn = contentTypesMethods[fieldSchema.extension];
-      const extendedSchema = schemaExtensionFn(user, values, fieldSchema);
-      fieldSchema = { ...fieldSchema, ...extendedSchema };
+      const extension = schemaExtensionFn({ user, value, values, fieldSchema, metadatas });
 
-      if (!value && fieldSchema.value) {
-        value = fieldSchema.value;
+      if (extension) {
+        if (extension.fieldSchema) {
+          fieldSchema = { ...fieldSchema, ...extension.fieldSchema };
+        }
+
+        if (!value && extension.value) {
+          value = extension.value;
+        }
+
+        if (extension.values) {
+          values = { ...values, ...extension.values };
+        }
+
+        if (extension.metadatas) {
+          metadatas = { ...metadatas, ...extension.metadatas };
+        }
       }
     }
   }
