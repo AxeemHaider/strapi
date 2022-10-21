@@ -121,12 +121,15 @@ function Inputs({
       if (contentTypesMethods[fieldSchema.setValue]) {
         const setFn = contentTypesMethods[fieldSchema.setValue];
 
-        return setFn(user, values, fieldSchema);
+        const v = setFn({ user, value, values, fieldSchema, metadatas });
+        onChange({ target: { name: keys, value: v } });
+
+        return v;
       }
     }
 
     return value;
-  }, [type, value, fieldSchema, values, user]);
+  }, [type, value, fieldSchema, values, user, keys, metadatas, onChange]);
 
   const step = useMemo(() => {
     return getStep(type);
